@@ -1,0 +1,46 @@
+GET http://localhost:3001/jobs
+Content-Type: application/json
+
+
+###
+
+POST http://localhost:3001/jobs
+Content-Type: application/json
+
+{
+    "Id": "12345",
+    "name": "Yisroel",
+    "date": "11/26/2022",
+    "location": "Beth Tfiloh",
+    "type_of_event": "linen",
+    "linen": "[{Bumbee: 1, shape: 'round'}, {swirl: 13, shape: 'round'}]",
+    "flowers": "TRUE",
+    "Bouqette": "TRUE",
+    "Notes": "Client really want white flowers for the bouqete with a little bit of green. Just a bit. Also drop off satursday night",
+    "paid": "FALSE",
+    "send_invoice": "FALSE",
+    "client_email": "hoffman@gmail.com",
+    "type_of_client": "client"
+}
+
+
+###
+# Send in the data that you want to update. Whatever you don't
+# Send in will just be left as is in the sheet.
+POST http://localhost:3001/jobs/2
+Content-Type: application/json
+
+{
+    "name": "Higher",
+    "date": "11/15/2022",
+    "location": "Sideman",
+    "type_of_event": "Wedding",
+    "linen": "[{Bumbee: 1, shape: 'round'}, {swirl: 13, shape: 'round'}]",
+    "flowers": "TRUE",
+    "Bouqette": "TRUE",
+    "Notes": "Client really want white flowers for the bouqete with a little bit of green. Just a bit. Also drop off satursday night",
+    "paid": "TRUE",
+    "send_invoice": "TRUE",
+    "client_email": "Weis@gmail.com",
+    "type_of_client": "client"
+}

@@ -1,0 +1,32 @@
+.add-job-modal {
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.add-job-modal-content {
+  min-height: 60%;
+  background-color: #fefefe;
+  margin: 5% auto; /* 15% from the top and centered */
+  padding: 20px;
+  /* border: 1px solid #9e9e9e; */
+  width: 80%; /* Could be more or less, depending on screen size */
+  border-radius: 3px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.option {
+  background-color: #fff;
+  border: 1px solid #000;
+}
+
+.add-linen-button,
+.add-napkin-button {
+  border: 1px solid #000;
+  text-align: center;
+}
