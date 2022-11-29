@@ -128,6 +128,7 @@ app.post("/jobs", async (req, res) => {
       ],
     },
   });
+  res.sendStatus(200);
 });
 
 app.post("/jobs/:id", async (req, res) => {
