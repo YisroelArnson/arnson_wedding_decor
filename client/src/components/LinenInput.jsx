@@ -11,12 +11,14 @@ function LinenInput(props) {
   };
 
   useEffect(() => {
+    console.log(select, count);
     props.addLinen(props.index, {
-      index: props.index,
-      name: select,
+      unique_id: select,
       count: count,
     });
   }, [select, count]);
+
+  console.log(props.linenList);
 
   return (
     <div index={props.index}>

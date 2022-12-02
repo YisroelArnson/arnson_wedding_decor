@@ -1,17 +1,19 @@
 import { useState, useEffect } from "react";
 import "./App.css";
 import JobForm from "./components/JobForm";
-
+import WeeklySchedule from "./components/WeeklySchedule";
 const API_BASE = "http://localhost:3001";
 function App() {
   //Store list of all jobs fetched from DB
   const [jobs, setJobs] = useState([]);
 
   //State to open and close add job model
-  const [JobFormModalActive, setJobFormModalActive] = useState(true);
+  const [JobFormModalActive, setJobFormModalActive] = useState(false);
 
   //State to display app when data is done loading
-  const [isLoading, setIsLoading] = useState(true);
+  const [jobIsLoading, setJobIsLoading] = useState(true);
+  const [linenIsLoading, setLinenIsLoading] = useState(true);
+  const [napkinsIsLoading, setNapkinsIsLoading] = useState(true);
 
   //List of all tableclothes that we have
   const [linenList, setLinenList] = useState();
@@ -30,6 +32,7 @@ function App() {
       .then((res) => res.json())
       .then((data) => {
         setJobs(data.data.values);
+        setJobIsLoading(false);
         console.log(data.data.values);
       })
       .catch((err) => console.error("Error:", err));
@@ -40,6 +43,7 @@ function App() {
       .then((res) => res.json())
       .then((data) => {
         setLinenList(data.data.values);
+        setLinenIsLoading(false);
         console.log(data.data.values);
       })
       .catch((err) => console.error("Error:", err));
@@ -51,20 +55,20 @@ function App() {
       .then((data) => {
         setNapkinsList(data.data.values);
         console.log(data.data.values);
-        setIsLoading(false);
+        setNapkinsIsLoading(false);
       })
       .catch((err) => console.error("Error:", err));
   };
 
   return (
     <div>
-      {isLoading ? (
+      {jobIsLoading || linenIsLoading || napkinsIsLoading ? (
         <div>Loading...</div>
       ) : (
         <div className="App">
-          {jobs.map((job) => (
+          {/* {jobs.map((job) => (
             <div key={job.job_id}>{job}</div>
-          ))}
+          ))} */}
 
           <div
             className="openModalButton"
@@ -85,6 +89,12 @@ function App() {
           ) : (
             ""
           )}
+
+          <WeeklySchedule
+            jobs={jobs}
+            linenList={linenList}
+            napkinsList={napkinsList}
+          />
         </div>
       )}
     </div>

@@ -28,9 +28,9 @@ export default function JobForm(props) {
   });
 
   //List of table clothes added by form
-  const [linen, setLinen] = useState([]);
+  const [linen, setLinen] = useState();
   //List of napkins added by form
-  const [napkins, setNapkins] = useState([]);
+  const [napkins, setNapkins] = useState();
   //Add linen and napkin states to newJob state
   const addLinenAndNapkingsToJob = () => {
     setNewJob({
@@ -42,36 +42,42 @@ export default function JobForm(props) {
 
   //Adds linen to linen state when user changes drop down or count inputs
   const addLinen = (index, newObj) => {
+    console.log(newObj);
     let tempLinen = linen;
     let itemFound = false;
-    for (var i = 0; i < linen.length; i++) {
-      if (linen[i].index === index) {
+    for (const key in linen) {
+      if (linen[key].index === index) {
         itemFound = true;
-        linen[i] = newObj;
+        linen[key] = newObj;
       }
     }
 
     if (!itemFound) {
-      setLinen([...linen, newObj]);
+      setLinen({ ...linen, [index]: newObj });
     } else {
       setLinen(tempLinen);
     }
-    addLinenAndNapkingsToJob();
   };
+
+  useEffect(() => {
+    addLinenAndNapkingsToJob();
+    console.log(linen);
+    console.log(napkins);
+  }, [linen, napkins]);
 
   //Adds napkin to napkin state when user changes drop down or count inputs
   const addNapkins = (index, newObj) => {
     let tempNapkins = napkins;
     let itemFound = false;
-    for (var i = 0; i < napkins.length; i++) {
-      if (napkins[i].index === index) {
+    for (const key in napkins) {
+      if (napkins[key].index === index) {
         itemFound = true;
-        napkins[i] = newObj;
+        napkins[key] = newObj;
       }
     }
 
     if (!itemFound) {
-      setNapkins([...napkins, newObj]);
+      setNapkins({ ...napkins, [index]: newObj });
     } else {
       setNapkins(tempNapkins);
     }
@@ -114,6 +120,7 @@ export default function JobForm(props) {
       .then((res) => {
         console.log(res);
         props.fetchJobs();
+        props.setJobFormModalActive(false);
       })
       .catch((err) => console.error("Error:", err));
   };

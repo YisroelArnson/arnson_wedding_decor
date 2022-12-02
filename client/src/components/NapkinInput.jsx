@@ -12,8 +12,7 @@ function LinenInput(props) {
 
   useEffect(() => {
     props.addNapkins(props.index, {
-      index: props.index,
-      name: select,
+      unique_id: select,
       count: count,
     });
   }, [select, count]);
