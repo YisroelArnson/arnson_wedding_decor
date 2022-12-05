@@ -10,31 +10,17 @@ export default function JobForm(props) {
   const [linenCount, setLinenCount] = useState(1);
   //NapkinCount: ''
   const [napkinCount, setNapkinCount] = useState(1);
-  //newJob: state to store job info as its added
-  const [newJob, setNewJob] = useState({
-    Id: "",
-    name: "",
-    date: "",
-    location: "",
-    type_of_event: "",
-    flowers: "",
-    Bouqette: "",
-    Notes: "",
-    paid: "",
-    send_invoice: "",
-    client_email: "",
-    type_of_client: "",
-    notes: "",
-  });
-
+  //job: state to store job info as its added
+  const [job, setJob] = useState(props.job);
+  console.log(job);
   //List of table clothes added by form
   const [linen, setLinen] = useState();
   //List of napkins added by form
   const [napkins, setNapkins] = useState();
-  //Add linen and napkin states to newJob state
+  //Add linen and napkin states to job state
   const addLinenAndNapkingsToJob = () => {
-    setNewJob({
-      ...newJob,
+    setJob({
+      ...job,
       linen: JSON.stringify(linen),
       napkins: JSON.stringify(napkins),
     });
@@ -59,12 +45,6 @@ export default function JobForm(props) {
     }
   };
 
-  useEffect(() => {
-    addLinenAndNapkingsToJob();
-    console.log(linen);
-    console.log(napkins);
-  }, [linen, napkins]);
-
   //Adds napkin to napkin state when user changes drop down or count inputs
   const addNapkins = (index, newObj) => {
     let tempNapkins = napkins;
@@ -85,15 +65,21 @@ export default function JobForm(props) {
     addLinenAndNapkingsToJob();
   };
 
-  //Updates specific newJob item state when user changes input fields
+  useEffect(() => {
+    addLinenAndNapkingsToJob();
+    console.log(linen);
+    console.log(napkins);
+  }, [linen, napkins]);
+
+  //Updates specific job item state when user changes input fields
   const handleChange = (event) => {
-    setNewJob({ ...newJob, [event.target.name]: event.target.value });
-    console.log(newJob);
+    setJob({ ...job, [event.target.name]: event.target.value });
+    console.log(job);
   };
 
   //Handles the option change when user clicks on an option
   const handleOptionChoice = (name, value) => {
-    setNewJob({ ...newJob, [name]: value });
+    setJob({ ...job, [name]: value });
   };
 
   //Adds linen input field
@@ -106,13 +92,13 @@ export default function JobForm(props) {
   };
 
   //--------------------API-------------------------//
-  //Sends a post request to /jobs; body is newJob state
+  //Sends a post request to /jobs; body is job state
   const postJob = () => {
     addLinenAndNapkingsToJob();
-    console.log(newJob);
+    console.log(job);
     fetch(API_BASE + "/jobs", {
       method: "POST",
-      body: JSON.stringify(newJob),
+      body: JSON.stringify(job),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
@@ -142,7 +128,7 @@ export default function JobForm(props) {
           className="name-input"
           type="text"
           name="name"
-          value={newJob.name}
+          value={job.name}
           placeholder="Name"
           onChange={handleChange}
         ></input>
@@ -151,7 +137,7 @@ export default function JobForm(props) {
           className="location-input"
           type="text"
           name="location"
-          value={newJob.location}
+          value={job.location}
           placeholder="Location"
           onChange={handleChange}
         ></input>
@@ -160,7 +146,7 @@ export default function JobForm(props) {
           className="date-input"
           type="text"
           name="date"
-          value={newJob.date}
+          value={job.date}
           placeholder="date"
           onChange={handleChange}
         ></input>
@@ -247,7 +233,7 @@ export default function JobForm(props) {
           className="client-email-input"
           type="text"
           name="client_email"
-          value={newJob.client_email}
+          value={job.client_email}
           placeholder="Client Email"
           onChange={handleChange}
         ></input>
@@ -256,7 +242,7 @@ export default function JobForm(props) {
           className="notes-input-box"
           type="text"
           name="notes"
-          value={newJob.notes}
+          value={job.notes}
           placeholder="Notes..."
           onChange={handleChange}
         />

@@ -41,6 +41,7 @@ export default function WeeklySchedule(props) {
                     job={job}
                     linenList={props.linenList}
                     napkinsList={props.napkinsList}
+                    fetchJobs={props.fetchJobs}
                   />
                 );
               })}

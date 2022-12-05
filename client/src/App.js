@@ -81,6 +81,24 @@ function App() {
 
           {JobFormModalActive ? (
             <JobForm
+              job={{
+                job_id: "",
+                name: "",
+                date: "",
+                location: "",
+                job_type: "",
+                linen: "",
+                napkins: "",
+                flowers: "",
+                bouqette: "",
+                notes: "",
+                paid: "",
+                sent_invoice: "",
+                client_email: "",
+                client_type: "",
+                invoice_url: "",
+                linen_picked_up: "",
+              }}
               setJobFormModalActive={setJobFormModalActive}
               fetchJobs={getJobs}
               linenList={linenList}
@@ -94,6 +112,7 @@ function App() {
             jobs={jobs}
             linenList={linenList}
             napkinsList={napkinsList}
+            fetchJobs={getJobs}
           />
         </div>
       )}

@@ -31,6 +31,7 @@ export default function JobPreviewBox(props) {
           linenList={props.linenList}
           napkinsList={props.napkinsList}
           setJobPageOpen={setJobPageOpen}
+          fetchJobs={props.fetchJobs}
         />
       ) : (
         ""
