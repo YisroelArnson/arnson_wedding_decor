@@ -77,4 +77,31 @@
 .open-job-page-button {
   cursor: pointer;
 }
+
+.job-page-top-bar {
+  display: flex;
+  justify-content: space-between;
+}
+
+.top-bar-right {
+  width: 100px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.job-page-edit-button {
+  cursor: pointer;
+  background-color: lightblue;
+}
+
+.exit-button {
+  background-color: red;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0 5px;
+  color: white;
+  text-align: center;
+  align-self: center;
+}
 /* JobPage */
