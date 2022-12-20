@@ -1,6 +1,7 @@
 import React from "react";
 import JobPreviewBox from "./JobPreviewBox";
 export default function WeeklySchedule(props) {
+  const keys = Object.keys(props.jobs);
   var days = [
     "Sunday",
     "Monday",
@@ -24,27 +25,26 @@ export default function WeeklySchedule(props) {
 
   return (
     <div className="weekly-schedule-container">
-      {currentWeekDays.map((day) => {
+      {currentWeekDays.map((day, index) => {
         return (
-          <div className="weekly-schedule-column">
+          <div key={index} className="weekly-schedule-column">
             <h1>{days[day.getDay()]}</h1>
             <h2>{day.getDate()}</h2>
-            {props.jobs
-              .filter((job) => {
-                let tDate = new Date(job[2]);
-                return day.getTime() === tDate.getTime();
-              })
-              .map((job) => {
+            {Object.keys(props.jobs).map((key, index) => {
+              let jobDate = new Date(props.jobs[key].date);
+              if (day.getTime() === jobDate.getTime()) {
                 return (
                   <JobPreviewBox
+                    key={index}
                     day={day}
-                    job={job}
+                    job={props.jobs[key]}
                     linenList={props.linenList}
                     napkinsList={props.napkinsList}
                     fetchJobs={props.fetchJobs}
                   />
                 );
-              })}
+              }
+            })}
           </div>
         );
       })}

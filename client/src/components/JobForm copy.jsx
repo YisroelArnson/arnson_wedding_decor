@@ -2,16 +2,80 @@ import React from "react";
 import { useState, useEffect } from "react";
 import LinenInput from "./LinenInput";
 import NapkinInput from "./NapkinInput";
-import CheckBox from "./CheckBox";
+
 const API_BASE = "http://localhost:3001";
 
 export default function JobForm(props) {
+  console.log(props.job);
+  //LinenCount: how many linen input boxes to display
+  const [linenCount, setLinenCount] = useState(1);
+  //NapkinCount: ''
+  const [napkinCount, setNapkinCount] = useState(1);
   //job: state to store job info as its added
   const [job, setJob] = useState(props.job);
   console.log(job);
+  //List of table clothes added by form
+  const [linen, setLinen] = useState();
+  //List of napkins added by form
+  const [napkins, setNapkins] = useState();
+  //Add linen and napkin states to job state
+  const addLinenAndNapkingsToJob = () => {
+    setJob({
+      ...job,
+      linen: JSON.stringify(linen),
+      napkins: JSON.stringify(napkins),
+    });
+  };
+
+  //Adds linen to linen state when user changes drop down or count inputs
+  const addLinen = (index, newObj) => {
+    console.log(newObj);
+    let tempLinen = linen;
+    let itemFound = false;
+    for (const key in linen) {
+      if (linen[key].index === index) {
+        itemFound = true;
+        linen[key] = newObj;
+      }
+    }
+
+    if (!itemFound) {
+      setLinen({ ...linen, [index]: newObj });
+    } else {
+      setLinen(tempLinen);
+    }
+  };
+
+  //Adds napkin to napkin state when user changes drop down or count inputs
+  const addNapkins = (index, newObj) => {
+    let tempNapkins = napkins;
+    let itemFound = false;
+    for (const key in napkins) {
+      if (napkins[key].index === index) {
+        itemFound = true;
+        napkins[key] = newObj;
+      }
+    }
+
+    if (!itemFound) {
+      setNapkins({ ...napkins, [index]: newObj });
+    } else {
+      setNapkins(tempNapkins);
+    }
+
+    addLinenAndNapkingsToJob();
+  };
+
+  useEffect(() => {
+    addLinenAndNapkingsToJob();
+    console.log(linen);
+    console.log(napkins);
+  }, [linen, napkins]);
+
   //Updates specific job item state when user changes input fields
   const handleChange = (event) => {
     setJob({ ...job, [event.target.name]: event.target.value });
+    console.log(job);
   };
 
   //Handles the option change when user clicks on an option
@@ -19,64 +83,38 @@ export default function JobForm(props) {
     setJob({ ...job, [name]: value });
   };
 
+  //Adds linen input field
   const addLinenInput = () => {
-    let temp = job.linen;
-    temp.push({ unique_id: "", count: 0 });
-    setJob({ ...job, linen: temp });
+    console.log(job.linen);
+    let tempLinen = job.linen;
+    console.log(tempLinen);
+    // setJob({...job, job.linen: [job.linen, { unique_id: "", count: "" }]})
+    console.log(props.job);
   };
-
-  const updateLinenInput = (index, unique_id, count) => {
-    let temp = job.linen;
-    temp[index] = { unique_id: unique_id, count: parseInt(count) };
-    setJob({ ...job, linen: temp });
-  };
-
+  //Adds Napkin input field
   const addNapkinInput = () => {
-    let temp = job.napkins;
-    temp.push({ unique_id: "", count: 0 });
-    setJob({ ...job, napkins: temp });
-  };
-
-  const updateNapkinInput = (index, unique_id, count) => {
-    let temp = job.napkins;
-    temp[index] = { unique_id: unique_id, count: parseInt(count) };
-    setJob({ ...job, napkins: temp });
+    setNapkinCount(napkinCount + 1);
   };
 
   //--------------------API-------------------------//
   //Sends a post request to /jobs; body is job state
   const saveJob = () => {
-    if (job._id) {
-      fetch(API_BASE + "/jobs/" + job._id, {
-        method: "PUT",
-        body: JSON.stringify(job),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
+    console.log(job);
+    props.setJobs(...props.jobs, job);
+    fetch(API_BASE + "/jobs", {
+      method: "POST",
+      body: JSON.stringify(job),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    })
+      .then((res) => {
+        console.log(res);
+        props.fetchJobs();
+        props.setJobFormModalActive(false);
       })
-        .then((res) => {
-          console.log(res);
-          props.fetchJobs();
-          props.setJobFormModalActive(false);
-        })
-        .catch((err) => console.error("Error:", err));
-    } else {
-      fetch(API_BASE + "/jobs", {
-        method: "POST",
-        body: JSON.stringify(job),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-      })
-        .then((res) => {
-          console.log(res);
-          props.fetchJobs();
-          props.setJobFormModalActive(false);
-        })
-        .catch((err) => console.error("Error:", err));
-    }
+      .catch((err) => console.error("Error:", err));
   };
-
   //--------------------API-------------------------//
 
   return (
@@ -85,7 +123,6 @@ export default function JobForm(props) {
         <div
           className="closeModalButton"
           onClick={() => {
-            props.fetchJobs();
             props.setJobFormModalActive(false);
           }}
         >
@@ -95,7 +132,7 @@ export default function JobForm(props) {
         <input
           className="name-input"
           type="text"
-          name="client_name"
+          name="name"
           value={job.client_name}
           placeholder="Name"
           onChange={handleChange}
@@ -118,51 +155,41 @@ export default function JobForm(props) {
           placeholder="date"
           onChange={handleChange}
         ></input>
-        <CheckBox
-          checked={job.bouqette}
-          title={"bouqette"}
-          attribute_id={"bouqette"}
-          onChangeFunction={handleChange}
-        />
         <h3 className="title">type of event</h3>
         <div
-          className={
-            job.job_type == "linen" ? "option picked-option" : "option"
-          }
+          className="option"
           type="option"
-          name="job_type"
+          name="type_of_event"
           value={"linen"}
           placeholder="Type of Event"
-          onClick={() => handleOptionChoice("job_type", "linen")}
+          onClick={() => handleOptionChoice("type_of_event", "linen")}
         >
           Linen
         </div>
         <div
-          className={
-            job.job_type == "wedding" ? "option picked-option" : "option"
-          }
+          className="option"
           type="option"
-          name="job_type"
-          value={"wedding"}
+          name="type_of_event"
+          value={"linen"}
           placeholder="Type of Event"
-          onClick={() => handleOptionChoice("job_type", "wedding")}
+          onClick={() => handleOptionChoice("type_of_event", "wedding")}
         >
           Wedding
         </div>
         <div id="linen-container">
-          {job.linen.length != 0
-            ? job.linen.map((linen, index) => {
+          {props.job.linen
+            ? props.job.linen.map((linen, index) => {
                 return (
                   <LinenInput
                     linen={linen}
                     index={index}
                     key={index}
+                    addLinen={addLinen}
                     linenList={props.linenList}
-                    updateLinenInput={updateLinenInput}
                   />
                 );
               })
-            : addLinenInput()}
+            : console.log("no linen", props.job.linen)}
         </div>
         <div
           className="add-linen-button"
@@ -173,19 +200,14 @@ export default function JobForm(props) {
           Add linen
         </div>
         <div id="napkin-container">
-          {job.napkins.length != 0
-            ? job.napkins.map((napkin, index) => {
-                return (
-                  <NapkinInput
-                    napkin={napkin}
-                    index={index}
-                    key={index}
-                    napkinsList={props.napkinsList}
-                    updateNapkinInput={updateNapkinInput}
-                  />
-                );
-              })
-            : addNapkinInput()}
+          {Array.from(Array(napkinCount)).map((x, index) => (
+            <NapkinInput
+              index={index}
+              key={index}
+              napkinsList={props.napkinsList}
+              addNapkins={addNapkins}
+            />
+          ))}
         </div>
         <div
           className="add-napkin-button"
@@ -197,26 +219,22 @@ export default function JobForm(props) {
         </div>
         <h3 className="type-of-client-title">type of client</h3>
         <div
-          className={
-            job.client_type == "customer" ? "option picked-option" : "option"
-          }
+          className="option"
           type="option"
-          name="client_type"
+          name="type_of_client"
           value={"customer"}
           placeholder="Type of Event"
-          onClick={() => handleOptionChoice("client_type", "customer")}
+          onClick={() => handleOptionChoice("type_of_client", "customer")}
         >
           Customer
         </div>
         <div
-          className={
-            job.client_type == "vendor" ? "option picked-option" : "option"
-          }
+          className="option"
           type="option"
-          name="client_type"
+          name="type_of_client"
           value={"vendor"}
           placeholder="Type of Event"
-          onClick={() => handleOptionChoice("client_type", "vendor")}
+          onClick={() => handleOptionChoice("type_of_client", "vendor")}
         >
           Vendor
         </div>

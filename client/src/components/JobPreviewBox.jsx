@@ -1,11 +1,11 @@
 import { React, useState } from "react";
 import JobPage from "./JobPage";
 export default function JobPreviewBox(props) {
-  const linen = JSON.parse(props.job[5]);
-  const napkins = JSON.parse(props.job[6]);
-  const linenValues = Object.values(linen);
-  const napkinsValues = Object.values(napkins);
-
+  //Set class names based on job_type attribute from job
+  let jobTypeStyles = "job-preview-box-container ";
+  if (props.job.job_type === "linen") jobTypeStyles += "linen-job-style";
+  else if (props.job.job_type === "wedding")
+    jobTypeStyles += "wedding-job-style";
   const [jobPageOpen, setJobPageOpen] = useState(false);
   const getLinenNameFromId = (id) => {
     for (let i = 0; i < props.linenList.length; i++) {
@@ -24,7 +24,7 @@ export default function JobPreviewBox(props) {
   };
 
   return (
-    <div className="job-preview-box-container">
+    <div>
       {jobPageOpen ? (
         <JobPage
           job={props.job}
@@ -36,31 +36,28 @@ export default function JobPreviewBox(props) {
       ) : (
         ""
       )}
+      <div onClick={() => setJobPageOpen(true)} className={jobTypeStyles}>
+        <div>
+          <h3>{props.job.client_name}</h3>
+        </div>
+        {!props.partialRender &&
+          props.job.linen.map((linen, index) => {
+            return (
+              <h4 key={index}>
+                {linen.count} - {getLinenNameFromId(linen["unique_id"])}
+              </h4>
+            );
+          })}
 
-      <div>
-        <h3>{props.job[1]}</h3>
-        <h4
-          className="open-job-page-button"
-          onClick={() => setJobPageOpen(true)}
-        >
-          +
-        </h4>
+        {!props.partialRender &&
+          props.job.napkins.map((napkin, index) => {
+            return (
+              <h4 key={index} className="napkin-text">
+                {napkin.count} - {getNapkinNameFromId(napkin["unique_id"])}
+              </h4>
+            );
+          })}
       </div>
-      {linenValues.map((val) => {
-        return (
-          <h4>
-            {val["count"]} - {getLinenNameFromId(val["unique_id"])}
-          </h4>
-        );
-      })}
-
-      {napkinsValues.map((val) => {
-        return (
-          <h4 className="napkin-text">
-            {val["count"]} - {getNapkinNameFromId(val["unique_id"])}
-          </h4>
-        );
-      })}
     </div>
   );
 }
