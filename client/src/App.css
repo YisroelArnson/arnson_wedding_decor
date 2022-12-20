@@ -25,12 +25,16 @@
   border: 1px solid #000;
 }
 
+.picked-option {
+  background-color: lightblue;
+}
+
 .add-linen-button,
 .add-napkin-button {
   border: 1px solid #000;
   text-align: center;
 }
-
+/* Weekly schedule */
 .weekly-schedule-column {
 }
 
@@ -39,7 +43,9 @@
   flex-direction: row;
   justify-content: space-around;
 }
+/* Weekly schedule */
 
+/* Job preview box */
 .job-preview-box-container {
   background-color: lightgray;
   margin: 10px 0;
@@ -47,10 +53,57 @@
   padding: 5px;
 }
 
+.linen-job-style {
+  background-color: lightblue;
+}
+
+.wedding-job-style {
+  background-color: pink;
+}
+
 .napkin-text {
   color: blue;
 }
+/* Job preview box */
+/* Table */
 
+table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+tbody {
+  width: 100%;
+  background-color: lightgray;
+  border: 1px solid lightblue;
+}
+tr {
+  width: 100%;
+}
+
+th,
+td {
+  padding: 20px 15px;
+  text-align: left;
+  font-weight: 500;
+  font-size: 17px;
+  color: black;
+}
+.sort-button {
+  background-color: transparent;
+  border: none;
+  padding: 5px 10px;
+  margin: 0;
+  line-height: 1;
+  font-size: 15px;
+  color: black;
+  cursor: pointer;
+}
+
+.sort-reverse {
+  transform: rotate(180deg);
+}
+/* Table */
 /* JobPage */
 .job-page-modal {
   position: fixed; /* Stay in place */
@@ -105,3 +158,57 @@
   align-self: center;
 }
 /* JobPage */
+/* checkbox */
+.check-box-container {
+  display: flex;
+  align-items: center;
+}
+.check-box-box {
+  margin-right: 15px;
+  width: 20px;
+  height: 20px;
+  border: 2px solid lightblue;
+  cursor: pointer;
+}
+
+.checked {
+  background-color: lightblue;
+}
+/* checkbox */
+
+/* calendar */
+.calendar-border {
+  width: 90%;
+  border: 1px solid lightgray;
+  margin: 50px auto;
+}
+
+.calendar-container {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  justify-content: center;
+}
+
+.cell {
+  border: 1px solid lightgray;
+  padding: 30px;
+}
+
+.bold {
+  font-weight: 600;
+}
+.uppercase {
+  text-transform: uppercase;
+}
+
+.col-span-3 {
+  grid-column: span 3 / span 3;
+}
+
+.font-l {
+  font-size: 25px;
+}
+.highlighted-cell {
+  background-color: lightblue;
+}
+/* calendar */

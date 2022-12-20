@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import "./App.css";
 import JobForm from "./components/JobForm";
 import WeeklySchedule from "./components/WeeklySchedule";
+import Calendar from "./components/Calendar";
+import Table from "./components/Table";
 const API_BASE = "http://localhost:3001";
 function App() {
   //Store list of all jobs fetched from DB
@@ -31,9 +33,9 @@ function App() {
     fetch(API_BASE + "/jobs")
       .then((res) => res.json())
       .then((data) => {
-        setJobs(data.data.values);
+        setJobs(data);
         setJobIsLoading(false);
-        console.log(data.data.values);
+        console.log(data);
       })
       .catch((err) => console.error("Error:", err));
   };
@@ -81,24 +83,9 @@ function App() {
 
           {JobFormModalActive ? (
             <JobForm
-              job={{
-                job_id: "",
-                name: "",
-                date: "",
-                location: "",
-                job_type: "",
-                linen: "",
-                napkins: "",
-                flowers: "",
-                bouqette: "",
-                notes: "",
-                paid: "",
-                sent_invoice: "",
-                client_email: "",
-                client_type: "",
-                invoice_url: "",
-                linen_picked_up: "",
-              }}
+              jobs={jobs}
+              setJobs={setJobs}
+              job={{ linen: [], napkins: [] }}
               setJobFormModalActive={setJobFormModalActive}
               fetchJobs={getJobs}
               linenList={linenList}
@@ -110,6 +97,18 @@ function App() {
 
           <WeeklySchedule
             jobs={jobs}
+            linenList={linenList}
+            napkinsList={napkinsList}
+            fetchJobs={getJobs}
+          />
+          <Calendar
+            jobs={jobs}
+            linenList={linenList}
+            napkinsList={napkinsList}
+            fetchJobs={getJobs}
+          />
+          <Table
+            data={jobs}
             linenList={linenList}
             napkinsList={napkinsList}
             fetchJobs={getJobs}
