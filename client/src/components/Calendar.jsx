@@ -29,21 +29,29 @@ export default function Calendar(props) {
   return (
     <div className="calendar-border">
       <div className="calendar-container">
-        <Cell onClick={prevYear}>{"<<"}</Cell>
-        <Cell onClick={prevMonth}>{"<"}</Cell>
-        <Cell className="font-l bold col-span-3">
+        <Cell className="cell-header cell-clickable" onClick={prevYear}>
+          {"<<"}
+        </Cell>
+        <Cell className="cell-header cell-clickable" onClick={prevMonth}>
+          {"🡠"}
+        </Cell>
+        <Cell className="cell-header font-l bold col-span-3">
           {format(selectedDate, "LLLL yyyy")}
         </Cell>
-        <Cell onClick={nextMonth}>{">"}</Cell>
-        <Cell onClick={nextYear}>{">>"}</Cell>
+        <Cell className="cell-header cell-clickable" onClick={nextMonth}>
+          {"🡢"}
+        </Cell>
+        <Cell className="cell-header cell-clickable" onClick={nextYear}>
+          {">>"}
+        </Cell>
         {weeks.map((week, index) => (
-          <Cell key={index} className="bold uppercase">
+          <Cell key={index} className="cell-header bold uppercase">
             {week}
           </Cell>
         ))}
 
         {Array.from({ length: prefixDays }).map((_, index) => (
-          <Cell key={index} />
+          <Cell className="cell empty-days" key={index} />
         ))}
 
         {Array.from({ length: numDays }).map((_, index) => {
@@ -61,8 +69,9 @@ export default function Calendar(props) {
           }
           if (indexOfJobsToDisplay.length > 0) {
             return (
-              <Cell key={index} date={date}>
-                {dayOfMonth}
+              <Cell key={index} date={date} className="cell">
+                <h4 className="cell-date-title">{dayOfMonth}</h4>
+
                 {indexOfJobsToDisplay.map((index) => {
                   return (
                     <JobPreviewBox
@@ -79,14 +88,14 @@ export default function Calendar(props) {
             );
           }
           return (
-            <Cell key={index} date={date}>
-              {dayOfMonth}
+            <Cell className="cell" key={index} date={date}>
+              <h4 className="cell-date-title">{dayOfMonth}</h4>
             </Cell>
           );
         })}
 
         {Array.from({ length: suffixDays }).map((_, index) => (
-          <Cell key={index} />
+          <Cell className="cell empty-days" key={index} />
         ))}
       </div>
     </div>

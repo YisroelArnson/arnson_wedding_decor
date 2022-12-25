@@ -4,7 +4,7 @@ import JobPage from "./JobPage";
 
 export default function Table({ data, linenList, napkinsList, fetchJobs }) {
   const [sortKey, setSortKey] = useState("job_id");
-  const [sortOrder, setSortOrder] = useState("ascn");
+  const [sortOrder, setSortOrder] = useState("desc");
   const [jobPageOpen, setJobPageOpen] = useState(false);
   const [selectedJobId, setSelectedJobId] = useState();
   const headers = [
@@ -21,9 +21,39 @@ export default function Table({ data, linenList, napkinsList, fetchJobs }) {
   function sortData(tableData, sortKey, reverse) {
     if (!sortKey) return tableData;
 
-    const sortedData = data.sort((a, b) => {
-      return a[sortKey] > b[sortKey] ? 1 : -1;
+    // const sortedData = data.sort((a, b) => {
+    //   return a[sortKey] > b[sortKey] ? 1 : -1;
+    // });
+
+    const sortedData = data.sort(function (a, b) {
+      return (
+        (+b[sortKey] == b[sortKey] && +a[sortKey] != a[sortKey]) ||
+        a[sortKey] - b[sortKey]
+      );
     });
+
+    if (sortKey === "date") {
+      console.log("date");
+      const sortedData = data.sort(function (a, b) {
+        return new Date(b.date) - new Date(a.date);
+      });
+    }
+
+    if (
+      sortKey === "client_name" ||
+      sortKey === "location" ||
+      sortKey === "client_email"
+    ) {
+      const sortedData = data.sort(function (a, b) {
+        if (a[sortKey].toLowerCase() < b[sortKey].toLowerCase()) {
+          return -1;
+        }
+        if (a[sortKey].toLowerCase() > b[sortKey].toLowerCase()) {
+          return 1;
+        }
+        return 0;
+      });
+    }
 
     if (reverse) {
       return sortedData.reverse();
@@ -34,7 +64,7 @@ export default function Table({ data, linenList, napkinsList, fetchJobs }) {
 
   function findById(source, id) {
     for (var i = 0; i < source.length; i++) {
-      if (source[i]._id === id) {
+      if (source[i].job_id === id) {
         return source[i];
       }
     }
@@ -79,13 +109,13 @@ export default function Table({ data, linenList, napkinsList, fetchJobs }) {
       ) : (
         ""
       )}
-      <table>
+      <table className="jobs-table">
         <thead>
           <tr>
             {headers.map((row) => {
               return (
                 <td key={row.key}>
-                  {row.label}
+                  <h4 className="table-header-title">{row.label}</h4>
                   <SortButton
                     columnKey={row.key}
                     onClick={() => changeSort(row.key)}
@@ -105,7 +135,7 @@ export default function Table({ data, linenList, napkinsList, fetchJobs }) {
                 key={job.job_id}
                 onClick={() => {
                   console.log(job._id);
-                  setSelectedJobId(job._id);
+                  setSelectedJobId(job.job_id);
                   setJobPageOpen(true);
                 }}
               >

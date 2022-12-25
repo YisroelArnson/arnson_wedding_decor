@@ -32,7 +32,7 @@ const JobSchema = new Schema({
     type: [],
     default: [],
   },
-  ordered_flowers: {
+  order_flowers: {
     type: Boolean,
     default: false,
   },
@@ -63,6 +63,10 @@ const JobSchema = new Schema({
   invoice_url: {
     type: String,
     default: "",
+  },
+  invoice_id: {
+    type: String,
+    defualt: "",
   },
   linen_picked_up: {
     type: Boolean,

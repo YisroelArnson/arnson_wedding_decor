@@ -7,7 +7,7 @@ export default function Cell(props) {
       onClick={() => {
         if (props.onClick) props.onClick();
       }}
-      className={"cell " + props.className}
+      className={props.className}
     >
       {props.children}
     </div>

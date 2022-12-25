@@ -4,6 +4,7 @@ import JobForm from "./components/JobForm";
 import WeeklySchedule from "./components/WeeklySchedule";
 import Calendar from "./components/Calendar";
 import Table from "./components/Table";
+import FlowerNotificationBox from "./components/FlowerNotificationBox";
 const API_BASE = "http://localhost:3001";
 function App() {
   //Store list of all jobs fetched from DB
@@ -44,9 +45,9 @@ function App() {
     fetch(API_BASE + "/linen")
       .then((res) => res.json())
       .then((data) => {
-        setLinenList(data.data.values);
+        setLinenList(data);
         setLinenIsLoading(false);
-        console.log(data.data.values);
+        console.log(data);
       })
       .catch((err) => console.error("Error:", err));
   };
@@ -55,8 +56,8 @@ function App() {
     fetch(API_BASE + "/napkins")
       .then((res) => res.json())
       .then((data) => {
-        setNapkinsList(data.data.values);
-        console.log(data.data.values);
+        setNapkinsList(data);
+        console.log(data);
         setNapkinsIsLoading(false);
       })
       .catch((err) => console.error("Error:", err));
@@ -68,12 +69,8 @@ function App() {
         <div>Loading...</div>
       ) : (
         <div className="App">
-          {/* {jobs.map((job) => (
-            <div key={job.job_id}>{job}</div>
-          ))} */}
-
           <div
-            className="openModalButton"
+            className="open-modal-button"
             onClick={() => {
               setJobFormModalActive(true);
             }}
@@ -94,7 +91,7 @@ function App() {
           ) : (
             ""
           )}
-
+          <FlowerNotificationBox jobs={jobs} />
           <WeeklySchedule
             jobs={jobs}
             linenList={linenList}

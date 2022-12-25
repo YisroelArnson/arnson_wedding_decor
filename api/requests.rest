@@ -62,3 +62,12 @@ Content-Type: application/json
     "client_email": "Weis@gmail.com",
     "type_of_client": "client"
 }
+
+
+###
+POST http://localhost:3001/invoice
+Content-Type: application/json
+
+{      
+    "title": "invoice_5"
+}

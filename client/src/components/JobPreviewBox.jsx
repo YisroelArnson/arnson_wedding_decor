@@ -38,7 +38,7 @@ export default function JobPreviewBox(props) {
       )}
       <div onClick={() => setJobPageOpen(true)} className={jobTypeStyles}>
         <div>
-          <h3>{props.job.client_name}</h3>
+          <h2>{props.job.client_name}</h2>
         </div>
         {!props.partialRender &&
           props.job.linen.map((linen, index) => {

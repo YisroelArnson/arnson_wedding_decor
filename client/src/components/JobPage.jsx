@@ -6,7 +6,8 @@ const API_BASE = "http://localhost:3001";
 export default function JobPage(props) {
   const [jobFormOpen, setJobFormOpen] = useState(false);
   const jobDate = new Date(props.job.date);
-
+  let linen_total_price = 0;
+  let napkin_total_price = 0;
   const handleCheckBoxChange = (event) => {
     fetch(API_BASE + "/jobs/attribute/" + props.job._id, {
       method: "PUT",
@@ -28,11 +29,11 @@ export default function JobPage(props) {
   const getLinenNameFromId = (id) => {
     for (let i = 0; i < props.linenList.length; i++) {
       if (props.linenList[i][1] === id) {
-        return [
-          props.linenList[i][0],
-          props.linenList[i][6],
-          props.linenList[i][7],
-        ];
+        return {
+          linen_name: props.linenList[i][0],
+          client_price: props.linenList[i][6],
+          vendor_price: props.linenList[i][7],
+        };
       }
     }
   };
@@ -40,10 +41,30 @@ export default function JobPage(props) {
   const getNapkinNameFromId = (id) => {
     for (let i = 0; i < props.napkinsList.length; i++) {
       if (props.napkinsList[i][1] === id) {
-        return props.napkinsList[i][0];
+        return {
+          napkin_name: props.napkinsList[i][0],
+          client_price: props.napkinsList[i][5],
+          vendor_price: props.napkinsList[i][6],
+        };
       }
     }
   };
+
+  const createInvoice = () => {
+    fetch(API_BASE + "/invoice", {
+      method: "POST",
+      body: JSON.stringify({ id: props.job._id, title: "invoice_" }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => console.error("Error:", err));
+  };
+
   return (
     <div className="job-page-modal">
       {jobFormOpen ? (
@@ -64,6 +85,12 @@ export default function JobPage(props) {
           </div>
 
           <div className="top-bar-right">
+            <div
+              className="create-invoice-button"
+              onClick={() => createInvoice()}
+            >
+              Create Invoice
+            </div>
             <div
               className="job-page-edit-button"
               onClick={() => {
@@ -103,26 +130,42 @@ export default function JobPage(props) {
         <h2>Date: {jobDate.toDateString()}</h2>
         <h2>Location: {props.job.location}</h2>
         <h2>bouqette: {"" + props.job.bouqette}</h2>
+        <h2>Order flowers: {"" + props.job.order_flowers}</h2>
         <div className="linen-table">
           {props.job.linen.map((linen, index) => {
             const linenData = getLinenNameFromId(linen.unique_id);
-            console.log(linen);
             if (linenData) {
+              let linen_price = linenData.client_price;
+              if (props.job.client_type === "vendor") {
+                linen_price = linenData.vendor_price;
+              }
+              linen_total_price += linen_price * linen.count;
               return (
                 <h4 key={index}>
-                  {linen.count} - {linenData[0]} - ${linenData[1]}
+                  {linenData.linen_name} - {linen.count} x ${linen_price} = $
+                  {linen_price * linen.count}
                 </h4>
               );
             }
           })}
 
           {props.job.napkins.map((napkin, index) => {
-            return (
-              <h4 key={index} className="napkin-text">
-                {napkin.count} - {getNapkinNameFromId(napkin["unique_id"])}
-              </h4>
-            );
+            const napkinData = getNapkinNameFromId(napkin.unique_id);
+            if (napkinData) {
+              let napkin_price = napkinData.client_price;
+              if (props.job.client_type === "vendor") {
+                napkin_price = napkinData.vendor_price;
+              }
+              napkin_total_price += napkin_price * napkin.count;
+              return (
+                <h4 key={index} className="napkin-text">
+                  {napkinData.napkin_name} - {napkin.count} x ${napkin_price} =
+                  ${(napkin_price * napkin.count).toFixed(2)}
+                </h4>
+              );
+            }
           })}
+          <h2>Total price: ${linen_total_price + napkin_total_price}</h2>
         </div>
 
         <p>{props.job.notes}</p>

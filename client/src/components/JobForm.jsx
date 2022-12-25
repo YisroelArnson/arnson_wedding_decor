@@ -76,14 +76,12 @@ export default function JobForm(props) {
         .catch((err) => console.error("Error:", err));
     }
   };
-
   //--------------------API-------------------------//
-
   return (
     <div className="add-job-modal">
       <div className="add-job-modal-content">
         <div
-          className="closeModalButton"
+          className="close-modal-button"
           onClick={() => {
             props.fetchJobs();
             props.setJobFormModalActive(false);
@@ -91,7 +89,7 @@ export default function JobForm(props) {
         >
           x
         </div>
-        <h3 className="title">Name</h3>
+        <h2>Name</h2>
         <input
           className="name-input"
           type="text"
@@ -100,7 +98,7 @@ export default function JobForm(props) {
           placeholder="Name"
           onChange={handleChange}
         ></input>
-        <h3 className="title">Location</h3>
+        <h2 className="title">Location</h2>
         <input
           className="location-input"
           type="text"
@@ -109,7 +107,7 @@ export default function JobForm(props) {
           placeholder="Location"
           onChange={handleChange}
         ></input>
-        <h3 className="title">Date</h3>
+        <h2 className="title">Date</h2>
         <input
           className="date-input"
           type="text"
@@ -124,7 +122,13 @@ export default function JobForm(props) {
           attribute_id={"bouqette"}
           onChangeFunction={handleChange}
         />
-        <h3 className="title">type of event</h3>
+        <CheckBox
+          checked={job.order_flowers}
+          title={"Order Flowers"}
+          attribute_id={"order_flowers"}
+          onChangeFunction={handleChange}
+        />
+        <h2 className="title">Type of event</h2>
         <div
           className={
             job.job_type == "linen" ? "option picked-option" : "option"

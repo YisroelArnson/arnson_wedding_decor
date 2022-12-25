@@ -1,0 +1,9 @@
+Features to Add
+-Create invoices
+-Display pricing and total price for job
+-Add phone number
+-Deposit
+-How did they pay
+Completed features
+-Order flower notification
+-Add ordered flowers data point 
