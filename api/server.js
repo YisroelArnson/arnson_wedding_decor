@@ -166,9 +166,11 @@ const updateDataOfInvoice = async (job) => {
     i++;
   });
 
-  const response = (
-    await spreadsheets_service.spreadsheets.values.batchUpdate(request)
-  ).data;
+  const response = await spreadsheets_service.spreadsheets.values.batchUpdate(
+    request
+  );
+
+  return response;
 };
 
 const copyInvoice = async (fileName) => {
@@ -341,7 +343,9 @@ app.post("/invoice", async (req, res) => {
     }
   );
 
-  updateDataOfInvoice(job);
+  const resp = await updateDataOfInvoice(job);
+  console.log(resp.status);
+  res.sendStatus(resp.status);
 });
 
 app.listen(3001, () => console.log("Port 3001"));

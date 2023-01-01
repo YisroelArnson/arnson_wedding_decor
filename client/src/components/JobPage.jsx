@@ -58,13 +58,16 @@ export default function JobPage(props) {
         "Content-type": "application/json; charset=UTF-8",
       },
     })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
+      .then((res) => {
+        console.log(res.status);
+        // if (res.ok) {
+        //   handleCheckBoxChange({
+        //     target: { name: "sent_invoice", value: true },
+        //   });
+        // }
       })
       .catch((err) => console.error("Error:", err));
   };
-
   return (
     <div className="job-page-modal">
       {jobFormOpen ? (
