@@ -1,9 +1,13 @@
-Features to Add
--Create invoices
+Working on:
+-Deposit
+Features to Add:
 -Display pricing and total price for job
 -Add phone number
--Deposit
 -How did they pay
-Completed features
+-Add a notification modal that display things like if invoice was created succesfully...
+
+Completed features:
 -Order flower notification
 -Add ordered flowers data point 
+-Create invoices
+-Display links to invoices in job page

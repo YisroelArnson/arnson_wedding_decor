@@ -85,9 +85,8 @@ const fetchLinenAndNapkinData = async (napkin = false) => {
 
 const updateDataOfInvoice = async (job) => {
   const spreadsheets_service = google.sheets({ version: "v4", auth });
-
   const request = {
-    spreadsheetId: job.invoice_id,
+    spreadsheetId: job.invoice_ids[job.invoice_ids.length - 1],
     resource: {
       valueInputOption: "USER_ENTERED",
       data: [
@@ -331,19 +330,23 @@ app.post("/invoice", async (req, res) => {
   const jobObject = await Job.findOne({ _id: req.body.id });
   const invoiceTitle =
     jobObject.client_name + " - " + jobObject.date + " - " + jobObject.location;
-  const copiedFileId = await copyInvoice(invoiceTitle);
-
+  const copiedFileId = await copyInvoice(invoiceTitle).catch((error) =>
+    console.log(error)
+  );
   const job = await Job.findOneAndUpdate(
     { _id: req.body.id },
     {
-      $set: { invoice_id: copiedFileId },
+      $push: { invoice_ids: copiedFileId },
     },
     {
       new: true,
     }
+  ).catch((error) => console.log(error));
+
+  const resp = await updateDataOfInvoice(job).catch((error) =>
+    console.log(error)
   );
 
-  const resp = await updateDataOfInvoice(job);
   console.log(resp.status);
   res.sendStatus(resp.status);
 });

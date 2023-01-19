@@ -35,6 +35,10 @@ h3 {
   margin: 0;
 }
 
+.bold {
+  font-weight: 600;
+}
+
 input {
   border: 1px solid var(--border);
   border-radius: 5px;
@@ -234,6 +238,25 @@ select {
   text-align: center;
   align-self: center;
 }
+
+.invoice-link-container {
+  border: 1px solid #dddddd;
+  padding: 25px;
+  border-radius: 15px;
+}
+
+.invoice-link {
+  margin: 10px;
+  width: 20%;
+  border-radius: 15px;
+  padding: 15px 25px;
+  background-color: #f3f5f7;
+  text-decoration: none; /* no underline */
+  color: var(--main-font-color);
+  font-weight: 600;
+  font-size: var(--medium-font-size);
+}
+
 /* JobPage */
 /* checkbox */
 .check-box-container {
@@ -300,9 +323,6 @@ select {
   /* background-color: #eeeeee; */
 }
 
-.bold {
-  font-weight: 600;
-}
 .uppercase {
   text-transform: uppercase;
 }

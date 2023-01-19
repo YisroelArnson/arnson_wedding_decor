@@ -64,9 +64,9 @@ const JobSchema = new Schema({
     type: String,
     default: "",
   },
-  invoice_id: {
-    type: String,
-    defualt: "",
+  invoice_ids: {
+    type: [],
+    defualt: [],
   },
   linen_picked_up: {
     type: Boolean,
@@ -79,6 +79,10 @@ const JobSchema = new Schema({
   job_profit: {
     type: Number,
     default: 0,
+  },
+  deposit_recieved: {
+    type: Boolean,
+    default: false,
   },
 });
 

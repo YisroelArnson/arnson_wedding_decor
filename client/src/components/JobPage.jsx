@@ -60,6 +60,7 @@ export default function JobPage(props) {
     })
       .then((res) => {
         console.log(res.status);
+        // This code is for when I have a send invoice button
         // if (res.ok) {
         //   handleCheckBoxChange({
         //     target: { name: "sent_invoice", value: true },
@@ -172,6 +173,26 @@ export default function JobPage(props) {
         </div>
 
         <p>{props.job.notes}</p>
+
+        <div className="invoice-link-container">
+          {props.job.invoice_ids != 0 ? (
+            props.job.invoice_ids.map((id, index) => {
+              let link = "https://docs.google.com/spreadsheets/d/" + id;
+              return (
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={link}
+                  className="invoice-link"
+                >
+                  Invoice #{index + 1}
+                </a>
+              );
+            })
+          ) : (
+            <h3>There are no invoice created for this job yet</h3>
+          )}
+        </div>
       </div>
     </div>
   );
