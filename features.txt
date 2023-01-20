@@ -1,5 +1,4 @@
 Working on:
--Deposit
 Features to Add:
 -Display pricing and total price for job
 -Add phone number
@@ -11,3 +10,4 @@ Completed features:
 -Add ordered flowers data point 
 -Create invoices
 -Display links to invoices in job page
+-Deposit

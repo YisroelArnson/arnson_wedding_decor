@@ -243,11 +243,12 @@ select {
   border: 1px solid #dddddd;
   padding: 25px;
   border-radius: 15px;
+  overflow-x: scroll;
+  white-space: nowrap;
 }
 
 .invoice-link {
   margin: 10px;
-  width: 20%;
   border-radius: 15px;
   padding: 15px 25px;
   background-color: #f3f5f7;

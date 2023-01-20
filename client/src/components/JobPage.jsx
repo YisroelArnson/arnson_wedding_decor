@@ -135,6 +135,9 @@ export default function JobPage(props) {
         <h2>Location: {props.job.location}</h2>
         <h2>bouqette: {"" + props.job.bouqette}</h2>
         <h2>Order flowers: {"" + props.job.order_flowers}</h2>
+        <h2>
+          Deposit Amount Recieved: {"$" + props.job.deposit_amount_recieved}
+        </h2>
         <div className="linen-table">
           {props.job.linen.map((linen, index) => {
             const linenData = getLinenNameFromId(linen.unique_id);
@@ -177,7 +180,9 @@ export default function JobPage(props) {
         <div className="invoice-link-container">
           {props.job.invoice_ids != 0 ? (
             props.job.invoice_ids.map((id, index) => {
-              let link = "https://docs.google.com/spreadsheets/d/" + id;
+              let link =
+                "https://docs.google.com/spreadsheets/d/" +
+                props.job.invoice_ids[props.job.invoice_ids.length - index - 1];
               return (
                 <a
                   target="_blank"
@@ -185,7 +190,7 @@ export default function JobPage(props) {
                   href={link}
                   className="invoice-link"
                 >
-                  Invoice #{index + 1}
+                  Invoice #{props.job.invoice_ids.length - index}
                 </a>
               );
             })

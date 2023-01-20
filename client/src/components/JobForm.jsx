@@ -233,6 +233,14 @@ export default function JobForm(props) {
           placeholder="Client Email"
           onChange={handleChange}
         ></input>
+        <h3 className="title">Deposit Amount</h3>
+        <input
+          type="number"
+          name="deposit_amount_recieved"
+          value={job.deposit_amount_recieved}
+          placeholder="$300"
+          onChange={handleChange}
+        ></input>
         <h3 className="title">Notes</h3>
         <textarea
           className="notes-input-box"

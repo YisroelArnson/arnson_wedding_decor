@@ -80,9 +80,9 @@ const JobSchema = new Schema({
     type: Number,
     default: 0,
   },
-  deposit_recieved: {
-    type: Boolean,
-    default: false,
+  deposit_amount_recieved: {
+    type: Number,
+    default: 0,
   },
 });
 

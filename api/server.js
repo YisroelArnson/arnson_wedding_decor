@@ -106,6 +106,10 @@ const updateDataOfInvoice = async (job) => {
           range: "Sheet1!E14",
           values: [["Invoice #" + job.job_id]],
         },
+        {
+          range: "Sheet1!E34",
+          values: [[job.deposit_amount_recieved]],
+        },
       ],
       includeValuesInResponse: true,
       responseValueRenderOption: "FORMATTED_VALUE",
@@ -347,7 +351,7 @@ app.post("/invoice", async (req, res) => {
     console.log(error)
   );
 
-  console.log(resp.status);
+  console.log("Invoice Creation Status: " + resp.status);
   res.sendStatus(resp.status);
 });
 
