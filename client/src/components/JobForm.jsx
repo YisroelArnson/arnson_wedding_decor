@@ -3,7 +3,8 @@ import { useState, useEffect } from "react";
 import LinenInput from "./LinenInput";
 import NapkinInput from "./NapkinInput";
 import CheckBox from "./CheckBox";
-const API_BASE = "http://localhost:3001";
+import apiUrl from "../api_urls.json";
+const API_BASE = apiUrl.api_url;
 
 export default function JobForm(props) {
   //job: state to store job info as its added

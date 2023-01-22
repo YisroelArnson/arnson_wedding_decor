@@ -1,7 +1,8 @@
 import { React, useState } from "react";
 import JobForm from "./JobForm";
 import CheckBox from "./CheckBox";
-const API_BASE = "http://localhost:3001";
+import apiUrl from "../api_urls.json";
+const API_BASE = apiUrl.api_url;
 
 export default function JobPage(props) {
   const [jobFormOpen, setJobFormOpen] = useState(false);

@@ -5,7 +5,8 @@ import WeeklySchedule from "./components/WeeklySchedule";
 import Calendar from "./components/Calendar";
 import Table from "./components/Table";
 import FlowerNotificationBox from "./components/FlowerNotificationBox";
-const API_BASE = "http://localhost:3001";
+import apiUrl from "./api_urls.json";
+const API_BASE = apiUrl.api_url;
 function App() {
   //Store list of all jobs fetched from DB
   const [jobs, setJobs] = useState([]);
