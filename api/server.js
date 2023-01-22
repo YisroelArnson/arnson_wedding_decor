@@ -1,10 +1,10 @@
 const express = require("express");
 const cors = require("cors");
+const secrets = require("./secrets");
 const { google } = require("googleapis");
 const { mongoose } = require("mongoose");
 const app = express();
-const uri =
-  "mongodb+srv://yaffa:yaffa_database@cluster0.3x1cb0l.mongodb.net/?retryWrites=true&w=majority";
+const uri = secrets.mongoURI;
 app.use(express.json());
 app.use(cors());
 
@@ -25,6 +25,7 @@ mongoose
   .catch(console.error);
 
 const Job = require("./models/Job");
+const { secretmanager } = require("googleapis/build/src/apis/secretmanager");
 
 // ------------------------------ HELPER FUNCTIONS ------------------------------------------
 const getLinenDataFromId = (linenData, id, client_type) => {
