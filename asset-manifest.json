@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/arnson_wedding_decor/static/css/main.c7660db3.css",
-    "main.js": "/arnson_wedding_decor/static/js/main.5acd8755.js",
+    "main.js": "/arnson_wedding_decor/static/js/main.46818cc8.js",
     "index.html": "/arnson_wedding_decor/index.html",
     "main.c7660db3.css.map": "/arnson_wedding_decor/static/css/main.c7660db3.css.map",
-    "main.5acd8755.js.map": "/arnson_wedding_decor/static/js/main.5acd8755.js.map"
+    "main.46818cc8.js.map": "/arnson_wedding_decor/static/js/main.46818cc8.js.map"
   },
   "entrypoints": [
     "static/css/main.c7660db3.css",
-    "static/js/main.5acd8755.js"
+    "static/js/main.46818cc8.js"
   ]
 }
