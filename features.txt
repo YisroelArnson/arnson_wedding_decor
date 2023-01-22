@@ -4,7 +4,7 @@ Features to Add:
 -Add phone number
 -How did they pay
 -Add a notification modal that display things like if invoice was created succesfully...
-
+-Share invoice with client
 Completed features:
 -Order flower notification
 -Add ordered flowers data point 
