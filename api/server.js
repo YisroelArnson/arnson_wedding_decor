@@ -1,15 +1,14 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const { google } = require("googleapis");
 const { mongoose } = require("mongoose");
-const dotenv = require("dotenv");
-require("dotenv").config();
 const app = express();
 const uri = process.env.MONGO_URI;
 app.use(express.json());
 app.use(cors());
 
-console.log(process.env.CREDENTIALS);
+console.log(process.env.MONGO_URI);
 const jobsSpreadsheetId = "156oHYxDbV0vsJGF-zltaVzT-y_VA5YSxdgpJH-NCJgo";
 
 //Create auth instance
