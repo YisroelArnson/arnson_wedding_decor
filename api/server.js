@@ -358,7 +358,7 @@ app.post("/invoice", async (req, res) => {
   res.sendStatus(resp.status);
 });
 
-app.listen("0.0.0.0:" + $PORT, () => console.log("Port 3001"));
+app.listen(process.env.port, () => console.log("Port 3001"));
 
 //------------------------ Save old functions for reference ------------------------------
 const moveInvoiceToFolder = async (fileId) => {
