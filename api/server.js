@@ -9,6 +9,7 @@ app.use(express.json());
 app.use(cors());
 
 console.log(process.env.MONGO_URI);
+console.log(process.env.PORT);
 const jobsSpreadsheetId = "156oHYxDbV0vsJGF-zltaVzT-y_VA5YSxdgpJH-NCJgo";
 
 //Create auth instance
@@ -357,7 +358,7 @@ app.post("/invoice", async (req, res) => {
   res.sendStatus(resp.status);
 });
 
-app.listen(3001, () => console.log("Port 3001"));
+app.listen(process.env.PORT || 3001, () => console.log("Port 3001"));
 
 //------------------------ Save old functions for reference ------------------------------
 const moveInvoiceToFolder = async (fileId) => {
