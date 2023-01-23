@@ -12,6 +12,7 @@ Completed features:
 -Display links to invoices in job page
 -Deposit
 
+  "api_url": "arnsonweddingdecor-production.up.railway.app"
 
 
-// "api_url": "http://localhost:3001"
+ "api_url": "http://localhost:3001"
