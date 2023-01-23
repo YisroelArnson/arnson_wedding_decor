@@ -12,14 +12,14 @@ console.log(process.env.MONGO_URI);
 console.log(process.env.PORT);
 const jobsSpreadsheetId = "156oHYxDbV0vsJGF-zltaVzT-y_VA5YSxdgpJH-NCJgo";
 
-//Create auth instance
-const auth = new google.auth.GoogleAuth({
-  keyFile: "credentials.json",
-  scopes: [
-    "https://www.googleapis.com/auth/spreadsheets",
-    "https://www.googleapis.com/auth/drive",
-  ],
-});
+// //Create auth instance
+// const auth = new google.auth.GoogleAuth({
+//   keyFile: "credentials.json",
+//   scopes: [
+//     "https://www.googleapis.com/auth/spreadsheets",
+//     "https://www.googleapis.com/auth/drive",
+//   ],
+// });
 
 mongoose
   .connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -229,6 +229,10 @@ const pruneEmptyLinenAndNapkins = (items) => {
 };
 
 // ------------------------------ REQUEST HANDLERS ------------------------------------------------
+// /
+app.get("/", (req, res) => {
+  res.send("Hello World!");
+});
 //Fetch all jobs
 app.get("/jobs", async (req, res) => {
   const jobs = await Job.find();
