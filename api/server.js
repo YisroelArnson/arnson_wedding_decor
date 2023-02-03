@@ -3,7 +3,6 @@ const express = require("express");
 const cors = require("cors");
 const { google } = require("googleapis");
 const { mongoose } = require("mongoose");
-const creds = require("./credentials.json");
 const app = express();
 const uri = process.env.MONGO_URI;
 app.use(express.json());
