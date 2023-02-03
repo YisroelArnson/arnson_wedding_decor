@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const { google } = require("googleapis");
 const { mongoose } = require("mongoose");
+const creds = require("./credentials.json");
 const app = express();
 const uri = process.env.MONGO_URI;
 app.use(express.json());
@@ -11,6 +12,8 @@ app.use(cors({ origin: "*" }));
 console.log(process.env.MONGO_URI);
 console.log(process.env.PORT);
 const jobsSpreadsheetId = "156oHYxDbV0vsJGF-zltaVzT-y_VA5YSxdgpJH-NCJgo";
+
+console.log(creds);
 
 // //Create auth instance
 const auth = new google.auth.GoogleAuth({
