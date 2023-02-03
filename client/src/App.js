@@ -33,7 +33,7 @@ function App() {
   //Fetches all jobs from DB
   const getJobs = () => {
     console.log("fetching");
-    fetch(API_BASE + "/jobs")
+    fetch("https://arnsonweddingdecor-production.up.railway.app/jobs")
       .then((res) => res.json())
       .then((data) => {
         setJobs(data);
