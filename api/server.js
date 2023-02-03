@@ -236,7 +236,7 @@ app.get("/", (req, res) => {
 //Fetch all jobs
 app.get("/jobs", async (req, res) => {
   const jobs = await Job.find();
-
+  console.log("jobs fetched");
   res.json(jobs);
 });
 
@@ -327,13 +327,14 @@ app.put("/jobs/attribute/:id", async (req, res) => {
 //Fetch all rows from Linen spreadsheet
 app.get("/linen", async (req, res) => {
   const rows = await fetchLinenAndNapkinData();
+  console.log("linen fetched");
   res.send(rows);
 });
 
 //Fetch all rows from Napkins spreadsheet
 app.get("/napkins", async (req, res) => {
   const rows = await fetchLinenAndNapkinData(true);
-
+  console.log("napkins fetched");
   res.send(rows);
 });
 
