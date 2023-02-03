@@ -13,7 +13,7 @@ console.log(process.env.MONGO_URI);
 console.log(process.env.PORT);
 const jobsSpreadsheetId = "156oHYxDbV0vsJGF-zltaVzT-y_VA5YSxdgpJH-NCJgo";
 
-console.log(JSON.stringify(creds));
+console.log("test " + process.env.creds);
 
 // //Create auth instance
 const auth = new google.auth.GoogleAuth({
