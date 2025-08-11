@@ -37,7 +37,7 @@ console.log("test " + process.env.creds);
 
 // //Create auth instance
 const auth = new google.auth.GoogleAuth({
-  keyFile: "credentials.json",
+  credentials: JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_CREDS),
   scopes: [
     "https://www.googleapis.com/auth/spreadsheets",
     "https://www.googleapis.com/auth/drive",
