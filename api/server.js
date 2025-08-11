@@ -6,7 +6,19 @@ const { mongoose } = require("mongoose");
 const app = express();
 const uri = process.env.MONGO_URI;
 app.use(express.json());
-app.use(cors({ origin: "*" }));
+
+app.use(cors({
+  origin: (origin, cb) => {
+    // allow no-origin (curl/health checks) and your GH Pages origin
+    if (!origin || origin === "https://yisroelarnson.github.io") return cb(null, true);
+    return cb(new Error("Not allowed by CORS"));
+  },
+  methods: ["GET","POST","PUT","PATCH","DELETE","OPTIONS"],
+  allowedHeaders: ["Content-Type","Authorization"],
+  // credentials: true, // only if you do fetch(..., { credentials: 'include' })
+}));
+
+app.options("*", cors()); // ensure preflights succeed
 
 console.log(process.env.MONGO_URI);
 console.log(process.env.PORT);
