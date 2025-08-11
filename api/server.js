@@ -7,18 +7,27 @@ const app = express();
 const uri = process.env.MONGO_URI;
 app.use(express.json());
 
-app.use(cors({
-  origin: (origin, cb) => {
-    // allow no-origin (curl/health checks) and your GH Pages origin
-    if (!origin || origin === "https://yisroelarnson.github.io") return cb(null, true);
-    return cb(new Error("Not allowed by CORS"));
-  },
-  methods: ["GET","POST","PUT","PATCH","DELETE","OPTIONS"],
-  allowedHeaders: ["Content-Type","Authorization"],
-  // credentials: true, // only if you do fetch(..., { credentials: 'include' })
-}));
+// CORS configuration
+const allowedOrigins = new Set([
+  "https://yisroelarnson.github.io",
+  "http://localhost:3000",
+  "http://127.0.0.1:3000",
+]);
 
-app.options("*", cors()); // ensure preflights succeed
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.has(origin)) {
+      return callback(null, true);
+    }
+    return callback(new Error(`Not allowed by CORS: ${origin}`));
+  },
+  methods: ["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  optionsSuccessStatus: 204,
+};
+
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions)); // ensure preflights succeed with same options
 
 console.log(process.env.MONGO_URI);
 console.log(process.env.PORT);
