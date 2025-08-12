@@ -15,9 +15,13 @@ function LinenInput(props) {
   }, [select, count]);
 
   return (
-    <div index={props.index}>
-      <select onChange={(event) => onSelect(event)}>
-        <option value={select}>{props.napkin.unique_id}</option>
+    <div className="line-item-row" data-index={props.index}>
+      <select
+        className="line-item-select"
+        onChange={(event) => onSelect(event)}
+        value={select}
+      >
+        <option value="">Select napkin…</option>
         {props.napkinsList?.slice(1).map((option, index) => (
           <option key={index} value={option[1]}>
             {option[0]}
@@ -25,11 +29,20 @@ function LinenInput(props) {
         ))}
       </select>
       <input
-        index={props.index}
+        type="number"
+        min={0}
+        className="line-item-qty"
         value={count}
         onChange={(event) => onCountChange(event)}
-        className="napkin-input"
-      ></input>
+      />
+      <button
+        type="button"
+        className="line-item-delete"
+        onClick={() => props.removeRow?.(props.index)}
+        aria-label="Remove napkin row"
+      >
+        ×
+      </button>
     </div>
   );
 }

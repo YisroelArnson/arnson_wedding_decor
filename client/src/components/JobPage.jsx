@@ -70,6 +70,31 @@ export default function JobPage(props) {
       })
       .catch((err) => console.error("Error:", err));
   };
+  // Build sheet-style rows
+  const linenRows = props.job.linen
+    .map((linen) => {
+      const data = getLinenNameFromId(linen.unique_id);
+      if (!data) return null;
+      const unit = props.job.client_type === "vendor" ? data.vendor_price : data.client_price;
+      const subtotal = unit * linen.count;
+      linen_total_price += subtotal;
+      return { name: data.linen_name, qty: linen.count, unit, subtotal };
+    })
+    .filter(Boolean);
+
+  const napkinRows = props.job.napkins
+    .map((napkin) => {
+      const data = getNapkinNameFromId(napkin.unique_id);
+      if (!data) return null;
+      const unit = props.job.client_type === "vendor" ? data.vendor_price : data.client_price;
+      const subtotal = unit * napkin.count;
+      napkin_total_price += subtotal;
+      return { name: data.napkin_name, qty: napkin.count, unit, subtotal };
+    })
+    .filter(Boolean);
+
+  const grandTotal = (linen_total_price + napkin_total_price).toFixed(2);
+
   return (
     <div className="job-page-modal">
       {jobFormOpen ? (
@@ -84,34 +109,21 @@ export default function JobPage(props) {
         ""
       )}
       <div className="job-page-content">
-        <div className="job-page-top-bar">
+        <div className="modal-header">
           <div>
-            <h1>Name of client: {props.job.client_name}</h1>
+            <h2>Job: {props.job.client_name}</h2>
+            <p className="small-text">{jobDate.toDateString()} • {props.job.location}</p>
           </div>
-
           <div className="top-bar-right">
-            <div
-              className="create-invoice-button"
-              onClick={() => createInvoice()}
-            >
-              Create Invoice
-            </div>
-            <div
-              className="job-page-edit-button"
-              onClick={() => {
-                setJobFormOpen(true);
-              }}
-            >
-              Edit
-            </div>
-            <h2
-              className="exit-button"
-              onClick={() => props.setJobPageOpen(false)}
-            >
-              x
-            </h2>
+            <button className="secondary-button" onClick={() => setJobFormOpen(true)}>Edit</button>
+            <button className="primary-button" onClick={() => createInvoice()}>Create Invoice</button>
+            <button className="close-modal-button" onClick={() => props.setJobPageOpen(false)} aria-label="Close">×</button>
           </div>
         </div>
+
+        <div className="form-grid">
+          <div className="form-section">
+            <h3 className="section-title">Status</h3>
         <CheckBox
           checked={props.job.sent_invoice}
           title={"sent invoice"}
@@ -130,55 +142,113 @@ export default function JobPage(props) {
           attribute_id={"linen_picked_up"}
           onChangeFunction={handleCheckBoxChange}
         />
-
-        <h4>Job ID: {props.job.job_id}</h4>
-        <h2>Date: {jobDate.toDateString()}</h2>
-        <h2>Location: {props.job.location}</h2>
-        <h2>bouqette: {"" + props.job.bouqette}</h2>
-        <h2>Order flowers: {"" + props.job.order_flowers}</h2>
-        <h2>
-          Deposit Amount Recieved: {"$" + props.job.deposit_amount_recieved}
-        </h2>
-        <div className="linen-table">
-          {props.job.linen.map((linen, index) => {
-            const linenData = getLinenNameFromId(linen.unique_id);
-            if (linenData) {
-              let linen_price = linenData.client_price;
-              if (props.job.client_type === "vendor") {
-                linen_price = linenData.vendor_price;
-              }
-              linen_total_price += linen_price * linen.count;
-              return (
-                <h4 key={index}>
-                  {linenData.linen_name} - {linen.count} x ${linen_price} = $
-                  {linen_price * linen.count}
-                </h4>
-              );
-            }
-          })}
-
-          {props.job.napkins.map((napkin, index) => {
-            const napkinData = getNapkinNameFromId(napkin.unique_id);
-            if (napkinData) {
-              let napkin_price = napkinData.client_price;
-              if (props.job.client_type === "vendor") {
-                napkin_price = napkinData.vendor_price;
-              }
-              napkin_total_price += napkin_price * napkin.count;
-              return (
-                <h4 key={index} className="napkin-text">
-                  {napkinData.napkin_name} - {napkin.count} x ${napkin_price} =
-                  ${(napkin_price * napkin.count).toFixed(2)}
-                </h4>
-              );
-            }
-          })}
-          <h2>Total price: ${linen_total_price + napkin_total_price}</h2>
+          </div>
+          <div className="form-section">
+            <h3 className="section-title">Details</h3>
+            <div className="kv-list">
+              <div className="kv-row">
+                <div className="kv-key">Job ID</div>
+                <div className="kv-value">{props.job.job_id}</div>
+              </div>
+              <div className="kv-row">
+                <div className="kv-key">Client type</div>
+                <div className="kv-value">{props.job.client_type}</div>
+              </div>
+              <div className="kv-row">
+                <div className="kv-key">Client email</div>
+                <div className="kv-value">
+                  <a href={`mailto:${props.job.client_email}`}>{props.job.client_email}</a>
+                </div>
+              </div>
+              <div className="kv-row">
+                <div className="kv-key">Deposit received</div>
+                <div className="kv-value">${props.job.deposit_amount_recieved}</div>
+              </div>
+              <div className="kv-row">
+                <div className="kv-key">Bouqette</div>
+                <div className="kv-value">{props.job.bouqette ? "Yes" : "No"}</div>
+              </div>
+              <div className="kv-row">
+                <div className="kv-key">Order flowers</div>
+                <div className="kv-value">{props.job.order_flowers ? "Yes" : "No"}</div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <p>{props.job.notes}</p>
+        <div className="form-grid form-grid-items">
+          <div className="form-section">
+            <h3 className="section-title">Linen</h3>
+            <table className="sheet-table">
+              <thead>
+                <tr>
+                  <th className="left">Item</th>
+                  <th className="num">Qty</th>
+                  <th className="num">Unit</th>
+                  <th className="num">Subtotal</th>
+                </tr>
+              </thead>
+              <tbody>
+                {linenRows.map((row, idx) => (
+                  <tr key={idx}>
+                    <td className="left">{row.name}</td>
+                    <td className="num">{row.qty}</td>
+                    <td className="num">${row.unit}</td>
+                    <td className="num">${row.subtotal.toFixed(2)}</td>
+                  </tr>
+                ))}
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colSpan="3" className="left bold">Linen total</td>
+                  <td className="num bold">${linen_total_price.toFixed(2)}</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
 
-        <div className="invoice-link-container">
+          <div className="form-section">
+            <h3 className="section-title">Napkins</h3>
+            <table className="sheet-table">
+              <thead>
+                <tr>
+                  <th className="left">Item</th>
+                  <th className="num">Qty</th>
+                  <th className="num">Unit</th>
+                  <th className="num">Subtotal</th>
+                </tr>
+              </thead>
+              <tbody>
+                {napkinRows.map((row, idx) => (
+                  <tr key={idx}>
+                    <td className="left">{row.name}</td>
+                    <td className="num">{row.qty}</td>
+                    <td className="num">${row.unit}</td>
+                    <td className="num">${row.subtotal.toFixed(2)}</td>
+                  </tr>
+                ))}
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colSpan="3" className="left bold">Napkins total</td>
+                  <td className="num bold">${napkin_total_price.toFixed(2)}</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+
+        <div className="form-section">
+          <h3 className="section-title">Grand total</h3>
+          <h2>${grandTotal}</h2>
+        </div>
+
+        <div className="form-section">
+          <h3 className="section-title">Notes</h3>
+        <p>{props.job.notes}</p>
+        </div>
+
+        <div className="form-section invoice-link-container">
           {props.job.invoice_ids != 0 ? (
             props.job.invoice_ids.map((id, index) => {
               let link =

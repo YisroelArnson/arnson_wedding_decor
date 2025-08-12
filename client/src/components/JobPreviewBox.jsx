@@ -2,10 +2,9 @@ import { React, useState } from "react";
 import JobPage from "./JobPage";
 export default function JobPreviewBox(props) {
   //Set class names based on job_type attribute from job
-  let jobTypeStyles = "job-preview-box-container ";
+  let jobTypeStyles = "job-preview-box-container job-card ";
   if (props.job.job_type === "linen") jobTypeStyles += "linen-job-style";
-  else if (props.job.job_type === "wedding")
-    jobTypeStyles += "wedding-job-style";
+  else if (props.job.job_type === "wedding") jobTypeStyles += "wedding-job-style";
   const [jobPageOpen, setJobPageOpen] = useState(false);
   const getLinenNameFromId = (id) => {
     for (let i = 0; i < props.linenList.length; i++) {
@@ -37,26 +36,33 @@ export default function JobPreviewBox(props) {
         ""
       )}
       <div onClick={() => setJobPageOpen(true)} className={jobTypeStyles}>
-        <div>
-          <h2>{props.job.client_name}</h2>
+        <div className="job-card-header">
+          <div className="job-title">{props.job.client_name}</div>
+          <div className="job-tags">
+            {props.job.job_type && <span className="tag">{props.job.job_type}</span>}
+            {props.job.location && <span className="tag muted">{props.job.location}</span>}
+          </div>
         </div>
-        {!props.partialRender &&
-          props.job.linen.map((linen, index) => {
-            return (
-              <h4 key={index}>
-                {linen.count} - {getLinenNameFromId(linen["unique_id"])}
-              </h4>
-            );
-          })}
 
-        {!props.partialRender &&
-          props.job.napkins.map((napkin, index) => {
-            return (
-              <h4 key={index} className="napkin-text">
-                {napkin.count} - {getNapkinNameFromId(napkin["unique_id"])}
-              </h4>
-            );
-          })}
+        {!props.partialRender && (
+          <div className="job-lines">
+            {props.job.linen.map((linen, index) => (
+              <div key={index} className="job-line">
+                <span className="qty">{linen.count}</span>
+                <span className="sep">×</span>
+                <span className="item">{getLinenNameFromId(linen["unique_id"])}</span>
+              </div>
+            ))}
+
+            {props.job.napkins.map((napkin, index) => (
+              <div key={index} className="job-line napkin">
+                <span className="qty">{napkin.count}</span>
+                <span className="sep">×</span>
+                <span className="item">{getNapkinNameFromId(napkin["unique_id"])}</span>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

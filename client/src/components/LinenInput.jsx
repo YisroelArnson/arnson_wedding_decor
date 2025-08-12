@@ -14,10 +14,13 @@ function LinenInput(props) {
   }, [select, count]);
 
   return (
-    <div index={props.index}>
-      <h2>Linen</h2>
-      <select onChange={(event) => onSelect(event)}>
-        <option value={select}>{props.linen.unique_id}</option>
+    <div className="line-item-row" data-index={props.index}>
+      <select
+        className="line-item-select"
+        onChange={(event) => onSelect(event)}
+        value={select}
+      >
+        <option value="">Select linen…</option>
         {props.linenList?.slice(1).map((option, index) => (
           <option key={index} value={option[1]}>
             {option[0]}
@@ -25,11 +28,20 @@ function LinenInput(props) {
         ))}
       </select>
       <input
-        index={props.index}
+        type="number"
+        min={0}
+        className="line-item-qty"
         value={count}
         onChange={(event) => onCountChange(event)}
-        className="linen-input"
-      ></input>
+      />
+      <button
+        type="button"
+        className="line-item-delete"
+        onClick={() => props.removeRow?.(props.index)}
+        aria-label="Remove linen row"
+      >
+        ×
+      </button>
     </div>
   );
 }

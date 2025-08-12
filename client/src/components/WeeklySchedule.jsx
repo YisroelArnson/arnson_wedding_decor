@@ -2,7 +2,7 @@ import React from "react";
 import JobPreviewBox from "./JobPreviewBox";
 export default function WeeklySchedule(props) {
   const keys = Object.keys(props.jobs);
-  var days = [
+  const days = [
     "Sunday",
     "Monday",
     "Tuesday",
@@ -12,13 +12,12 @@ export default function WeeklySchedule(props) {
     "Saturday",
   ];
 
-  var currentWeekDays = [];
-  var now = new Date();
-  var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  var lastSunday = new Date(today.setDate(today.getDate() - today.getDay()));
+  const currentWeekDays = [];
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const lastSunday = new Date(today.setDate(today.getDate() - today.getDay()));
   for (let i = 0; i < 7; i++) {
-    let tempDate = new Date(lastSunday);
-
+    const tempDate = new Date(lastSunday);
     tempDate.setDate(tempDate.getDate() + i);
     currentWeekDays.push(tempDate);
   }
@@ -28,23 +27,28 @@ export default function WeeklySchedule(props) {
       {currentWeekDays.map((day, index) => {
         return (
           <div key={index} className="weekly-schedule-column">
-            <h1>{days[day.getDay()]}</h1>
-            <h2>{day.getDate()}</h2>
-            {Object.keys(props.jobs).map((key, index) => {
-              let jobDate = new Date(props.jobs[key].date);
-              if (day.getTime() === jobDate.getTime()) {
-                return (
-                  <JobPreviewBox
-                    key={index}
-                    day={day}
-                    job={props.jobs[key]}
-                    linenList={props.linenList}
-                    napkinsList={props.napkinsList}
-                    fetchJobs={props.fetchJobs}
-                  />
-                );
-              }
-            })}
+            <div className="week-header">
+              <div className="week-day">{days[day.getDay()]}</div>
+              <div className="week-date">{day.getDate()}</div>
+            </div>
+            <div className="week-events">
+              {Object.keys(props.jobs).map((key, idx) => {
+                const jobDate = new Date(props.jobs[key].date);
+                if (day.getTime() === jobDate.getTime()) {
+                  return (
+                    <JobPreviewBox
+                      key={idx}
+                      day={day}
+                      job={props.jobs[key]}
+                      linenList={props.linenList}
+                      napkinsList={props.napkinsList}
+                      fetchJobs={props.fetchJobs}
+                    />
+                  );
+                }
+                return null;
+              })}
+            </div>
           </div>
         );
       })}
