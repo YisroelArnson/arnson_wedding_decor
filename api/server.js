@@ -11,6 +11,8 @@ app.use(express.json());
 const allowedOrigins = new Set([
   "https://yisroelarnson.github.io",
   "http://localhost:3000",
+  "http://localhost:3001",
+  "http://localhost:3002",
   "http://127.0.0.1:3000",
 ]);
 
@@ -29,13 +31,8 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.options("*", cors(corsOptions)); // ensure preflights succeed with same options
 
-console.log(process.env.MONGO_URI);
-console.log(process.env.PORT);
+
 const jobsSpreadsheetId = "156oHYxDbV0vsJGF-zltaVzT-y_VA5YSxdgpJH-NCJgo";
-
-console.log("test " + process.env.creds);
-
-// //Create auth instance
 const auth = new google.auth.GoogleAuth({
   credentials: JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_CREDS),
   scopes: [

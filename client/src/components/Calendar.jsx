@@ -29,20 +29,32 @@ export default function Calendar(props) {
   return (
     <div className="calendar-border">
       <div className="calendar-container">
-        <Cell className="cell-header cell-clickable" onClick={prevYear}>
-          {"<<"}
+        <Cell className="cell-header">
+          <button className="nav-btn" onClick={prevYear} aria-label="Previous year">
+            <span className="chev">«</span>
+            <span className="nav-label">Year</span>
+          </button>
         </Cell>
-        <Cell className="cell-header cell-clickable" onClick={prevMonth}>
-          {"🡠"}
+        <Cell className="cell-header">
+          <button className="nav-btn" onClick={prevMonth} aria-label="Previous month">
+            <span className="chev">‹</span>
+            <span className="nav-label">Month</span>
+          </button>
         </Cell>
         <Cell className="cell-header font-l bold col-span-3">
           {format(selectedDate, "LLLL yyyy")}
         </Cell>
-        <Cell className="cell-header cell-clickable" onClick={nextMonth}>
-          {"🡢"}
+        <Cell className="cell-header">
+          <button className="nav-btn" onClick={nextMonth} aria-label="Next month">
+            <span className="nav-label">Month</span>
+            <span className="chev">›</span>
+          </button>
         </Cell>
-        <Cell className="cell-header cell-clickable" onClick={nextYear}>
-          {">>"}
+        <Cell className="cell-header">
+          <button className="nav-btn" onClick={nextYear} aria-label="Next year">
+            <span className="nav-label">Year</span>
+            <span className="chev">»</span>
+          </button>
         </Cell>
         {weeks.map((week, index) => (
           <Cell key={index} className="cell-header bold uppercase">

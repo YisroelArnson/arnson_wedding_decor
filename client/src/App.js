@@ -5,6 +5,7 @@ import WeeklySchedule from "./components/WeeklySchedule";
 import Calendar from "./components/Calendar";
 import Table from "./components/Table";
 import FlowerNotificationBox from "./components/FlowerNotificationBox";
+import JobStats from "./components/JobStats";
 import apiUrl from "./api_urls.json";
 const API_BASE = apiUrl.api_url;
 console.log(API_BASE);
@@ -66,53 +67,77 @@ function App() {
   };
 
   return (
-    <div>
-      {jobIsLoading || linenIsLoading || napkinsIsLoading ? (
-        <div>Loading...</div>
-      ) : (
-        <div className="App">
-          <div
-            className="open-modal-button"
-            onClick={() => {
-              setJobFormModalActive(true);
-            }}
-          >
-            Add Job
+    <div className="dashboard-root">
+      <header className="app-header">
+        <div className="brand">
+          <div className="brand-mark">AWD</div>
+          <div className="brand-text">
+            <h1>Arnson Wedding Decor</h1>
+            <p className="subtitle">Operations Dashboard</p>
           </div>
+        </div>
+        <div
+          className="primary-button"
+          onClick={() => {
+            setJobFormModalActive(true);
+          }}
+        >
+          + Add Job
+        </div>
+      </header>
 
-          {JobFormModalActive ? (
-            <JobForm
+      {JobFormModalActive ? (
+        <JobForm
+          jobs={jobs}
+          setJobs={setJobs}
+          job={{ linen: [], napkins: [] }}
+          setJobFormModalActive={setJobFormModalActive}
+          fetchJobs={getJobs}
+          linenList={linenList}
+          napkinsList={napkinsList}
+        />
+      ) : (
+        ""
+      )}
+
+      {jobIsLoading || linenIsLoading || napkinsIsLoading ? (
+        <div className="loading-wrap">
+          <div className="spinner" />
+          <div>Loading data…</div>
+        </div>
+      ) : (
+        <main className="content-grid">
+          <section className="panel">
+            <FlowerNotificationBox jobs={jobs} />
+          </section>
+          <section className="panel">
+            <JobStats jobs={jobs} />
+          </section>
+          <section className="panel full">
+            <WeeklySchedule
               jobs={jobs}
-              setJobs={setJobs}
-              job={{ linen: [], napkins: [] }}
-              setJobFormModalActive={setJobFormModalActive}
-              fetchJobs={getJobs}
               linenList={linenList}
               napkinsList={napkinsList}
+              fetchJobs={getJobs}
             />
-          ) : (
-            ""
-          )}
-          <FlowerNotificationBox jobs={jobs} />
-          <WeeklySchedule
-            jobs={jobs}
-            linenList={linenList}
-            napkinsList={napkinsList}
-            fetchJobs={getJobs}
-          />
-          <Calendar
-            jobs={jobs}
-            linenList={linenList}
-            napkinsList={napkinsList}
-            fetchJobs={getJobs}
-          />
-          <Table
-            data={jobs}
-            linenList={linenList}
-            napkinsList={napkinsList}
-            fetchJobs={getJobs}
-          />
-        </div>
+          </section>
+          <section className="panel full">
+            <Calendar
+              jobs={jobs}
+              linenList={linenList}
+              napkinsList={napkinsList}
+              fetchJobs={getJobs}
+            />
+          </section>
+          <section className="panel full">
+            <Table
+              data={jobs}
+              linenList={linenList}
+              napkinsList={napkinsList}
+              fetchJobs={getJobs}
+            />
+          </section>
+        </main>
       )}
     </div>
   );

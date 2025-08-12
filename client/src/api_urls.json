@@ -1,3 +1,4 @@
 {
-  "api_url": "https://arnsonweddingdecor-production.up.railway.app"
+  "api_url": "https://arnsonweddingdecor-production.up.railway.app",
+  "api_urlDEV": "http://localhost:3001"
 }

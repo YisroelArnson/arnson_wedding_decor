@@ -141,12 +141,18 @@ export default function Table({ data, linenList, napkinsList, fetchJobs }) {
               >
                 <td>{job.job_id}</td>
                 <td>{job.date}</td>
-                <td>{job.client_name}</td>
-                <td>{job.location}</td>
-                <td>{job.client_email}</td>
-                <td>{job.sent_invoice ? "✅" : "❌"}</td>
-                <td>{job.paid ? "✅" : "❌"}</td>
-                <td>{job.linen_picked_up ? "✅" : "❌"}</td>
+                <td className="truncate">{job.client_name}</td>
+                <td className="truncate">{job.location}</td>
+                <td className="truncate">{job.client_email}</td>
+                <td className="center">
+                  <span className={job.sent_invoice ? "status-dot ok" : "status-dot no"} />
+                </td>
+                <td className="center">
+                  <span className={job.paid ? "status-dot ok" : "status-dot no"} />
+                </td>
+                <td className="center">
+                  <span className={job.linen_picked_up ? "status-dot ok" : "status-dot no"} />
+                </td>
               </tr>
             );
           })}
