@@ -2,7 +2,6 @@
 
 A custom dashboard solution built for a wedding décor business to streamline job organization, inventory tracking, and invoicing.
 
-
 ## 🧾 Overview
 
 This project was designed to help a wedding décor business efficiently manage:
