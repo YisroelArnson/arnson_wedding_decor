@@ -3,10 +3,6 @@
 A custom dashboard solution built for a wedding décor business to streamline job organization, inventory tracking, and invoicing.
 
 
-## Live Demo
-Give time for the server to spin up when loading for the first time.
-
-https://yisroelarnson.github.io/arnson_wedding_decor/
 ## 🧾 Overview
 
 This project was designed to help a wedding décor business efficiently manage:
